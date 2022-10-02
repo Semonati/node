@@ -1,6 +1,8 @@
 const FileSystem = require("fs");
+const path = require("path");
 const { mkdir, readdir, writeFile, rmdir, unlink } = require("fs/promises");
 
+const txtFile = path.extname(`${__dirname}/path.txt`);
 const isExists = FileSystem.existsSync(`${__dirname}/users`);
 
 const users = [
@@ -26,15 +28,20 @@ const removeFileAndFolder = async () => {
 const makeAndRemoveFileAndFolder = async () => {
   try {
     const files = await readdir(__dirname + "/users");
-    files.forEach(async file => await unlink(`${__dirname}/users/${file}`));
+    files.forEach(async (file) => {
+      const ext = path.parse(`${__dirname}/${file}`).ext;
+        if(ext == txtFile){
+          await unlink(`${__dirname}/users/${file}`);
+        }      
+    });
     await rmdir(`${__dirname}/users`);
   } catch (error) {
     console.log(error.message);
   }
 };
 
-if(isExists){
-  makeAndRemoveFileAndFolder()
+if (isExists) {
+  makeAndRemoveFileAndFolder();
 } else {
   setTimeout(removeFileAndFolder, 5000);
 }
