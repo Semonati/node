@@ -1,1 +1,0 @@
-":remote-addr - :remote-user [:date[clf]]"
