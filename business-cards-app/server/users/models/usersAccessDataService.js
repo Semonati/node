@@ -3,7 +3,7 @@ const DB = process.env.DB || "MONGODB";
 const find = async () => {
   if (DB === "MONGODB") {
     try {
-    //   throw new Error("get users faild")
+      //   throw new Error("get users faild")
       return Promise.resolve([{ users: "in mongodb" }]);
     } catch (error) {
       error.status = 404;
@@ -16,7 +16,7 @@ const find = async () => {
 const findOne = async (id) => {
   if (DB === "MONGODB") {
     try {
-    //   throw new Error("get user faild");
+      //   throw new Error("get user faild");
       return Promise.resolve(`get user no. ${id}`);
     } catch (error) {
       error.status = 404;
@@ -29,7 +29,8 @@ const findOne = async (id) => {
 const login = async (user) => {
   if (DB === "MONGODB") {
     try {
-    //   throw new Error("login user faild");
+      user.id = 123123123;
+      //   throw new Error("login user faild");
       return Promise.resolve(`user no. ${user.id}`);
     } catch (error) {
       error.status = 404;
@@ -42,6 +43,7 @@ const login = async (user) => {
 const create = async (user) => {
   if (DB === "MONGODB") {
     try {
+      user.id = 456456456;
       // throw new Error("register user faild")
       return Promise.resolve(`user no. ${user.id}`);
     } catch (error) {
@@ -68,8 +70,10 @@ const update = async (user, id) => {
 const changelsBizStatus = async (userId, cardId) => {
   if (DB === "MONGODB") {
     try {
-    //   throw new Error("change to isBusiness faild")
-      return Promise.resolve(`user ${userId} make card no. ${cardId} isBusiness`);
+      //   throw new Error("change to isBusiness faild")
+      return Promise.resolve(
+        `user ${userId} make card no. ${cardId} isBusiness`
+      );
     } catch (error) {
       error.status = 400;
       return Promise.reject(error);
@@ -81,7 +85,7 @@ const changelsBizStatus = async (userId, cardId) => {
 const remove = async (id) => {
   if (DB === "MONGODB") {
     try {
-    //   throw new Error("delete user faild");
+      //   throw new Error("delete user faild");
       return Promise.resolve(`user no. ${id} deleted!`);
     } catch (error) {
       error.status = 400;

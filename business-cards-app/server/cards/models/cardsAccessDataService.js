@@ -31,9 +31,12 @@ const create = async (card) => {
     try {
       // throw new Error("create card faild")
       card.id = "18616";
-      return Promise.resolve(`card no. ${card.id} created ad ${card.createdAt}`);
+      return Promise.resolve(
+        `card no. ${card.id} created ad ${card.createdAt}`
+      );
     } catch (error) {
       error.status = 400;
+      console.log(error);
       return Promise.reject(error);
     }
   }

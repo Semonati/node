@@ -7,6 +7,8 @@ const {
   changelsBizStatus,
   login,
 } = require("../models/usersAccessDataService");
+const valid = require("../validations/userValidationService");
+
 
 const getUsers = async () => {
   try {
@@ -27,21 +29,31 @@ const getUser = async (id) => {
 };
 
 const loginUser = async (rawUser) => {
+  const { error } = valid.validateLogin(rawUser);
   try {
-    let user = { ...rawUser };
-    user = await login(user);
-    return Promise.resolve(user);
-  } catch (error) {
+    if (error) {
+      throw new Error();
+    } else {
+      let user = { ...rawUser };
+      user = await login(user);
+      return Promise.resolve(user);
+    }
+  } catch (err) {
     return Promise.reject(error);
   }
 };
 
 const registerUser = async (rawUser) => {
+  const { error } = valid.validateRegistaration(rawUser);
   try {
-    let user = { ...rawUser };
-    user = await create(user);
-    return Promise.resolve(user);
-  } catch (error) {
+    if (error) {
+      throw new Error();
+    } else {
+      let user = { ...rawUser };
+      user = await create(user);
+      return Promise.resolve(user);
+    }
+  } catch (err) {
     return Promise.reject(error);
   }
 };

@@ -2,40 +2,31 @@ const express = require("express");
 
 const { handelError } = require("../../utils/errorHandler");
 const {
-  getUsers,
-  getUser,
-  registerUser,
-  loginUser,
-  isBusiness,
-  deleteUser,
-  updateUser,
-} = require("../service/userService");
+  getCards,
+  getCard,
+  creatCard,
+  updateCard,
+  likeCard,
+  deleteCard,
+} = require("../service/cardService");
 
 const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    const users = await getUsers();
-    return res.send(users);
+    const cards = await getCards();
+    console.log("boom");
+    return res.send(cards);
   } catch (error) {
     return handelError(res, error.status || 500, error.message);
   }
 });
 
 router.get("/:id", async (req, res) => {
-  const userId = req.params.id;
+  const id = req.params.id;
   try {
-    const users = await getUser(userId);
-    return res.send(users);
-  } catch (error) {
-    return handelError(res, error.status || 500, error.message);
-  }
-});
-
-router.post("/login", async (req, res) => {
-  try {
-    const user = await loginUser(req.body);
-    return res.status(201).send(user);
+    const card = await getCard(id);
+    return res.send(card);
   } catch (error) {
     return handelError(res, error.status || 500, error.message);
   }
@@ -43,39 +34,39 @@ router.post("/login", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const user = await registerUser(req.body);
-    return res.status(201).send(user);
+    const card = await creatCard(req.body);
+    return res.status(201).send(card);
   } catch (error) {
     return handelError(res, error.status || 500, error.message);
   }
 });
 
 router.put("/:id", async (req, res) => {
-  const userId = req.params.id;
+  const id = req.params.id;
   try {
-    const user = await updateUser(req.body, userId);
-    return res.status(201).send(user);
+    const card = await updateCard(req.body, id);
+    return res.status(201).send(card);
   } catch (error) {
     return handelError(res, error.status || 500, error.message);
   }
 });
 
 router.patch("/:id", async (req, res) => {
-  const userId = req.params.id;
-  const cardId = "123456";
+  const id = req.params.id;
+  const userId = "123456";
   try {
-    const user = await isBusiness(userId, cardId);
-    return res.status(201).send(user);
+    const card = await likeCard(userId, id);
+    return res.status(201).send(card);
   } catch (error) {
     return handelError(res, error.status || 500, error.message);
   }
 });
 
 router.delete("/:id", async (req, res) => {
-  const userId = req.params.id;
+  const card_id = req.params.id;
   try {
-    const user = await deleteUser(userId);
-    return res.status(410).send(user);
+    const card = await deleteCard(card_id);
+    return res.status(410).send(card);
   } catch (error) {
     return handelError(res, error.status || 500, error.message);
   }
