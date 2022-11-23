@@ -1,5 +1,6 @@
 const express = require("express");
 const chalk = require("chalk");
+const lodash = require("lodash");
 
 const router = require("./router/router");
 const cors = require("./middlewares/cors");
@@ -23,3 +24,4 @@ app.listen(PORT, () => {
   console.log(chalk.blueBright(`Listening on: http://localhost:${PORT}`));
   connectToDb();
 });
+

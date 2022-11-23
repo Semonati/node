@@ -1,4 +1,5 @@
 const express = require("express");
+
 const { handleError } = require("../../utils/handleErrors");
 const normalizeUser = require("../helpers/normalizeUser");
 const {
@@ -10,12 +11,12 @@ const {
   changeUserBusinessStatus,
   deleteUser,
 } = require("../models/usersAccessDataService");
-
 const {
   validateRegistration,
   validateLogin,
   validateUserUpdate,
 } = require("../validations/userValidationService");
+
 const router = express.Router();
 
 router.post("/", async (req, res) => {

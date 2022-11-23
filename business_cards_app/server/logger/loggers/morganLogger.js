@@ -1,5 +1,6 @@
 const chalk = require("chalk");
 const morgan = require("morgan");
+
 const currentTime = require("../../utils/timeService");
 
 const morganLogger = morgan((tokens, req, res) => {

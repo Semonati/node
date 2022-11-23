@@ -1,12 +1,16 @@
 const Joi = require("joi");
 
-const registerValidation = user => {
+const registerValidation = (user) => {
+  const fullName = Joi.string().min(2).max(256).required();
+  const streetValues = Joi.string().required();
+  const altAndMiddelName = Joi.string().min(2).max(256).allow("");
+  
   const schema = Joi.object({
     name: Joi.object()
       .keys({
-        first: Joi.string().min(2).max(256).required(),
-        middle: Joi.string().min(2).max(256).allow(""),
-        last: Joi.string().min(2).max(256).required(),
+        first: fullName,
+        middle: altAndMiddelName,
+        last: fullName,
       })
       .required(),
     isBusiness: Joi.boolean().required(),
@@ -38,15 +42,15 @@ const registerValidation = user => {
           )
           .rule({ message: "user image mast be a valid url" })
           .allow(""),
-        alt: Joi.string().min(2).max(256).allow(""),
+        alt: altAndMiddelName,
       })
       .required(),
     address: Joi.object()
       .keys({
         state: Joi.string().allow(""),
-        country: Joi.string().required(),
-        city: Joi.string().required(),
-        street: Joi.string().required(),
+        country: streetValues,
+        city: streetValues,
+        street: streetValues,
         houseNumber: Joi.number().required(),
         zip: Joi.number(),
       })

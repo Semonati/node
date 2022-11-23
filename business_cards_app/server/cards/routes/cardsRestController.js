@@ -1,4 +1,5 @@
 const express = require("express");
+
 const { handleError } = require("../../utils/handleErrors");
 const normalizeCard = require("../helpers/normalizeCard");
 const {
@@ -11,6 +12,7 @@ const {
   deleteCard,
 } = require("../models/cardsAccessDataService");
 const validateCard = require("../validations/cardValidationService");
+
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -24,7 +26,7 @@ router.get("/", async (req, res) => {
 
 router.get("/my-cards", async (req, res) => {
   try {
-    const userId = 123456;
+    const userId = "6376667871c9c1d0b30481f7";
     const card = await getMyCards(userId);
     return res.send(card);
   } catch (error) {
@@ -78,7 +80,7 @@ router.put("/:id", async (req, res) => {
 router.patch("/:id", async (req, res) => {
   try {
     const cardId = req.params.id;
-    const user = { _id: "6376667871c9c1d0b30481f7" };
+    const user = { _id: "637d24fa09ef2cd441726dda" };
     const card = await likeCard(cardId, user);
     return res.send(card);
   } catch (error) {

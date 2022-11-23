@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const chalk = require("chalk");
+
 const currentTime = require("../../utils/timeService");
 
 const { hours, minutes, seconds } = currentTime();
