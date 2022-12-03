@@ -6,25 +6,7 @@ const DB = process.env.DB || "MONGODB";
 const getCards = async () => {
   if (DB === "MONGODB") {
     try {
-      // throw new Error("Opss... i did it again!");
       const cards = await Card.find();
-      return Promise.resolve(cards);
-    } catch (error) {
-      error.status = 404;
-      console.log(error);
-      handleBadRequest("MONGODB", error);
-      return Promise.reject(error);
-    }
-  }
-  return Promise.resolve([]);
-};
-
-const getMyCards = async (userId) => {
-  if (DB === "MONGODB") {
-    try {
-      const cards = await Card.find({ user_id: { $eq: userId } });
-      if (!cards.length)
-        throw new Error("Could not find any card in the database");
       return Promise.resolve(cards);
     } catch (error) {
       error.status = 404;
@@ -41,6 +23,22 @@ const getCard = async (cardId) => {
       const card = await Card.findById({ _id: cardId });
       if (!card) throw new Error("Could not find this card in the database");
       return Promise.resolve(card);
+    } catch (error) {
+      error.status = 404;
+      handleBadRequest("MONGODB", error);
+      return Promise.reject(error);
+    }
+  }
+  return Promise.resolve([]);
+};
+
+const getMyCards = async (user_id) => {
+  if (DB === "MONGODB") {
+    try {
+      const cards = await Card.find({ user_id: user_id });
+      if (!cards.length)
+        throw new Error("Could not find any card in the database");
+      return Promise.resolve(cards);
     } catch (error) {
       error.status = 404;
       handleBadRequest("MONGODB", error);
@@ -76,7 +74,7 @@ const updateCard = async (cardId, normalizedCard) => {
         );
       return Promise.resolve({ ...normalizedCard, cardId });
     } catch (error) {
-      error.status = 404;
+      error.status = 400;
       handleBadRequest("MONGODB", error);
       return Promise.reject(error);
     }
@@ -85,39 +83,23 @@ const updateCard = async (cardId, normalizedCard) => {
 };
 
 const likeCard = async (cardId, userId) => {
-  console.log(cardId);
-  console.log(userId);
   if (DB === "MONGODB") {
     try {
-      const card = await Card.findById({ _id: cardId });
+      let card = await Card.findById(cardId);
       if (!card)
-        throw new Error(
-          "Could not change card likes because a card with this ID cannot be founf in the database"
-        );
+        throw new Error("A card with this ID cannot be found in the database");
 
-      if (!card.likes.length)
-        await Card.findByIdAndUpdate(
-          { _id: cardId },
-          { $push: { likes: userId } }
-        );
-
-      if (card.likes.length) {
-        const foundId = card.likes.find((id) => id === userId._id);
-        console.log(foundId);
-
-        if (!foundId) {
-          await Card.findByIdAndUpdate(
-            { _id: cardId },
-            { $push: { likes: userId._id } }
-          );
-        } else {
-          await Card.findByIdAndUpdate(
-            { _id: cardId },
-            { $pull: { likes: userId._id } }
-          );
-        }
+      const cardLikes = card.likes.find((id) => id === userId);
+      if (!cardLikes) {
+        card.likes.push(userId);
+        card = await card.save();
+        return Promise.resolve(card);
       }
-      return Promise.resolve("work");
+
+      const cardFiltered = card.likes.filter((id) => id !== userId);
+      card.likes = cardFiltered;
+      card = await card.save();
+      return Promise.resolve(card);
     } catch (error) {
       error.status = 400;
       handleBadRequest("MONGODB", error);
@@ -127,7 +109,7 @@ const likeCard = async (cardId, userId) => {
   return Promise.resolve("card update!");
 };
 
-const deleteCard = async (cardId, user) => {
+const deleteCard = async (_id, user) => {
   if (DB === "MONGODB") {
     try {
       const card = await Card.findByIdAndDelete(cardId);
@@ -145,6 +127,24 @@ const deleteCard = async (cardId, user) => {
   return Promise.resolve("card deleted not in mongodb!");
 };
 
+const updateCardNumber = async (_id, newBizBumber) => {
+  try {
+    const cards = await Card.find().select(["bizNumber"]);
+    const cardToUpdate = await Card.findById(_id);
+    cards.forEach((bizNumber) => {
+      if (newBizBumber === bizNumber.bizNumber)
+        throw new Error("This business number already taken");
+    });
+    cardToUpdate.bizNumber = newBizBumber;
+    cardToUpdate.save();
+    return Promise.resolve(cardToUpdate);
+  } catch (error) {
+    error.status = 400;
+    handleBadRequest("MONGODB", error);
+    return Promise.reject(error);
+  }
+};
+
 exports.getCards = getCards;
 exports.getMyCards = getMyCards;
 exports.getCard = getCard;
@@ -152,3 +152,4 @@ exports.createCard = createCard;
 exports.updateCard = updateCard;
 exports.likeCard = likeCard;
 exports.deleteCard = deleteCard;
+exports.updateCardNumber = updateCardNumber;

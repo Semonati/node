@@ -1,6 +1,10 @@
+const { pick } = require("lodash");
+
 const User = require("./mongodb/User");
-const lodash = require("lodash");
 const { handleBadRequest } = require("../../utils/handleErrors");
+const { comparePassword } = require("../helpers/bcrypt");
+const { generateAuthToken } = require("../../auth/Providers/jwt");
+const countFailure = require("../../utils/loginFailedCounter");
 
 const DB = process.env.DB || "MONGODB";
 
@@ -9,10 +13,10 @@ const registerUser = async (normalizedUser) => {
     try {
       const email = normalizedUser.email;
       let user = await User.findOne({ email: email });
-      if (user) throw new Error("User already registered");
+      if (user) throw new Error("User already registered. Please login");
       user = new User(normalizedUser);
       user = await user.save();
-      user = lodash.pick(user, ["_id", "email", "name"]);
+      user = pick(user, ["_id", "email", "name"]);
       return Promise.resolve(user);
     } catch (error) {
       error.status = 400;
@@ -26,14 +30,18 @@ const registerUser = async (normalizedUser) => {
 const loginUser = async ({ email, password }) => {
   if (DB === "MONGODB") {
     try {
-      let user = await User.findOne({ email: email });
-      if (!user) throw new Error("Invalid email or password");
-      if (user.password !== password)
-        throw new Error("Invalid email or password");
-      return Promise.resolve("user is logged in");
+      let user = await User.findOne({ email });
+      if (!user) {
+        throw new Error(countFailure());
+      }
+      const validPassword = comparePassword(password, user.password);
+      if (!validPassword) {
+        throw new Error("Authentication Error: Invalid email or password");
+      }
+      const token = generateAuthToken(user);
+      return Promise.resolve(token);
     } catch (error) {
       error.status = 400;
-      handleBadRequest("Mongoose", error);
       return Promise.reject(error);
     }
   }
@@ -59,7 +67,7 @@ const getUser = async (userId) => {
     try {
       const user = await User.findById(
         { _id: userId },
-        { __v: 0, password: 0 }
+        { __v: 0, password: 0, isAdmin: 0 }
       );
       if (!user) throw new Error("Could not find this user in the database");
       return Promise.resolve(user);
@@ -79,7 +87,6 @@ const updateUser = async (userId, normalizedUser) => {
         new: true,
       }).select(["-__v", "-password"]);
 
-      console.log(user);
       if (!user)
         throw new Error(
           "Could not update user because a user with this ID cannot found in the database"
@@ -100,7 +107,7 @@ const changeUserBusinessStatus = async (userId) => {
       const pipeline = [{ $set: { isBusiness: { $not: "$isBusiness" } } }];
       const user = await User.findByIdAndUpdate(userId, pipeline, {
         new: true,
-      }).select(["-__v", "-password"]);
+      }).select(["-__v", "-password", "isAdmin"]);
       if (!user)
         throw new Error(
           "Could not cahnge user isBusiness because a user with this ID cannot found in the database"

@@ -1,4 +1,4 @@
-const userUpdateValidation = user => {
+const userUpdateValidation = (user) => {
   const newUser = { ...user };
   return newUser;
 };

@@ -1,5 +1,6 @@
 const express = require("express");
 
+const auth = require("../../auth/authService");
 const { handleError } = require("../../utils/handleErrors");
 const normalizeCard = require("../helpers/normalizeCard");
 const {
@@ -10,6 +11,7 @@ const {
   updateCard,
   likeCard,
   deleteCard,
+  updateCardNumber,
 } = require("../models/cardsAccessDataService");
 const validateCard = require("../validations/cardValidationService");
 
@@ -24,9 +26,12 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/my-cards", async (req, res) => {
+router.get("/my-cards", auth, async (req, res) => {
   try {
-    const userId = "6376667871c9c1d0b30481f7";
+    const userId = { _id: "638799b85ad2be73423d010d" };
+    const { isBusiness } = req.user;
+    if (!isBusiness)
+      throw new Error("Authorization Error: Only business can find this card");
     const card = await getMyCards(userId);
     return res.send(card);
   } catch (error) {
@@ -44,14 +49,18 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   try {
     let card = req.body;
-    const user = { _id: "6376667871c9c1d0b30481f7" };
+    const { isBusiness } = req.user;
+    const user = { _id: "63387a32aa366a576952fb9f5" };
     const { error } = validateCard(card);
     if (error)
       return handleError(res, 400, `Joi Error: ${error.details[0].message}`);
-
+    if (!isBusiness)
+      throw new Error(
+        "Authorization Error: Only business user can create card"
+      );
     card = await normalizeCard(card, user._id);
     card = await createCard(card);
     return res.status(201).send(card);
@@ -60,15 +69,18 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", auth, async (req, res) => {
   try {
     let card = req.body;
     const cardId = req.params.id;
-
+    const { isBusiness, _id } = req.user;
     const { error } = validateCard(card);
     if (error)
       return handleError(res, 400, `Joi Error: ${error.details[0].message}`);
-
+    if (_id !== card.user_id || !isBusiness)
+      throw new Error(
+        "Authorization Error: Only business owner user can update the card"
+      );
     card = await normalizeCard(card);
     card = await updateCard(cardId, card);
     return res.send(card);
@@ -77,22 +89,44 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", auth, async (req, res) => {
   try {
     const cardId = req.params.id;
-    const user = { _id: "637d24fa09ef2cd441726dda" };
-    const card = await likeCard(cardId, user);
+    const user = { _id: "6387a32aa366a576952fb9f5" };
+    const card = await likeCard(cardId, user._id);
     return res.send(card);
   } catch (error) {
     return handleError(res, error.status || 500, error.message);
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.patch("/update-card-number/:id", auth, async (req, res) => {
+  try {
+    const cardId = req.params;
+    const { newBizNumber } = req.body;
+    const { isAdmin } = req.user;
+    if (!isAdmin)
+      return handleError(
+        res,
+        401,
+        "Authorization Error: only admin can update card business number"
+      );
+    const changeCardNumber = await updateCardNumber(cardId.id, newBizNumber);
+    return res.send(changeCardNumber);
+  } catch (error) {
+    return handleError(res, error.status || 500, error.message);
+  }
+});
+router.delete("/:id", auth, async (req, res) => {
   try {
     const cardId = req.params.id;
-    const user = { _id: "6376667871c9c1d0b30481f7" };
-    const card = await deleteCard(cardId, user);
+    const { isAdmin, _id } = req.user;
+    const user = { _id: "6388f0854e7c5ed16d03a8ec" };
+    if (_id !== user._id && !isAdmin)
+      throw new Error(
+        "Authorization Error: You must be an admin or card owner to delete the card"
+      );
+    const card = await deleteCard(cardId);
     return res.send(card);
   } catch (error) {
     return handleError(res, error.status || 500, error.message);

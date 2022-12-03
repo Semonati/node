@@ -4,7 +4,7 @@ const registerValidation = (user) => {
   const fullName = Joi.string().min(2).max(256).required();
   const streetValues = Joi.string().required();
   const altAndMiddelName = Joi.string().min(2).max(256).allow("");
-  
+
   const schema = Joi.object({
     name: Joi.object()
       .keys({

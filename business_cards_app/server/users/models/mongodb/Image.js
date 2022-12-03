@@ -3,7 +3,12 @@ const { URL, DEFAULT_VALIDATION } = require("../../helpers/MongooseValidators");
 
 const Image = new mongoose.Schema({
   url: URL,
-  alt: DEFAULT_VALIDATION,
+  alt: {
+    type: String,
+    maxLength: 256,
+    trim: true,
+    lowercase: true,
+  },
 });
 
 module.exports = Image;

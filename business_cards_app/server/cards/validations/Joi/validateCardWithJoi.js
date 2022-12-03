@@ -36,7 +36,7 @@ const validateCardWithJoi = (card) => {
       .required(),
     address: Joi.object()
       .keys({
-        state: Joi.string().allow(""),
+        state: Joi.string().allow("").min(2),
         country: streetValues,
         city: streetValues,
         street: streetValues,
