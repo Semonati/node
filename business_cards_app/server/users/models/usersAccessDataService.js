@@ -4,7 +4,6 @@ const User = require("./mongodb/User");
 const { handleBadRequest } = require("../../utils/handleErrors");
 const { comparePassword } = require("../helpers/bcrypt");
 const { generateAuthToken } = require("../../auth/Providers/jwt");
-const countFailure = require("../../utils/loginFailedCounter");
 
 const DB = process.env.DB || "MONGODB";
 
@@ -32,7 +31,7 @@ const loginUser = async ({ email, password }) => {
     try {
       let user = await User.findOne({ email });
       if (!user) {
-        throw new Error(countFailure());
+        throw new Error("Authentication Error: Invalid email or password");
       }
       const validPassword = comparePassword(password, user.password);
       if (!validPassword) {

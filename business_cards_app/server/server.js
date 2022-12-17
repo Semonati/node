@@ -21,6 +21,7 @@ app.use(router);
 
 app.use((err, req, res, next) => {
   handleError(res, 500, err.message);
+  localStorage.setItem("user", "local");
 });
 
 const PORT = config.get("PORT");
@@ -30,3 +31,5 @@ app.listen(PORT, () => {
   // generateInitialCards();
   // generateInitialUsers();
 });
+
+// localStorage.setItem("user", "local")

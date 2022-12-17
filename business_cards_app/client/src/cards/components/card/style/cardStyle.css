@@ -1,0 +1,9 @@
+.icons{
+    justify-content: space-between;
+}
+.bold{
+    font-weight: bold;
+}
+.line{
+    display: flex;
+}
