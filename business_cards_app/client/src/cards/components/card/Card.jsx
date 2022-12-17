@@ -27,15 +27,15 @@ const CardComponent = () => {
         />
         <Box>
           <CardHeader title="forth" subheader="Subtitle" />
-          <Divider light="true" />
+          <Divider light={true} />
           <CardContent>
-            <Typography variant="body2" color="textSecondary" className="line">
+            <Typography variant="p" color="textSecondary" className="line">
               <p className="bold">Phone</p>: 050-0000000
             </Typography>
-            <Typography variant="body2" color="textSecondary" className="line">
+            <Typography variant="p" color="textSecondary" className="line">
               <p className="bold">Address</p>: Shinkin 3 Tel-Aviv
             </Typography>
-            <Typography variant="body2" color="textSecondary" className="line">
+            <Typography variant="p" color="textSecondary" className="line">
               <p className="bold">Card Number</p>: 40000000
             </Typography>
           </CardContent>
