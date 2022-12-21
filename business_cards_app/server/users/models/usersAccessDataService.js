@@ -1,5 +1,4 @@
 const { pick } = require("lodash");
-
 const User = require("./mongodb/User");
 const { handleBadRequest } = require("../../utils/handleErrors");
 const { comparePassword } = require("../helpers/bcrypt");
