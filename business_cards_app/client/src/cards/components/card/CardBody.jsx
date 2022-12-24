@@ -5,41 +5,36 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
-import Delete from "@mui/icons-material/Delete";
-import Phone from "@mui/icons-material/Phone";
-import Edit from "@mui/icons-material/Edit";
-import Favorite from "@mui/icons-material/Favorite";
 
 const CardBody = ({ card }) => {
+  const { title, subtitle, phone, address, bizNumber } = card;
+  const { street, houseNumber, city } = address;
+
   return (
-    <div>
-      <Box>
-        <CardHeader title="forth" subheader="Subtitle" />
-        <Divider light={true} />
-        <CardContent>
-          <Typography variant="p" color="textSecondary" className="line">
-            <p className="bold">Phone</p>:{card.phone}
+    <CardContent>
+      <CardHeader title={title} subheader={subtitle} sx={{ p: 0, mb: 1 }} />
+      <Divider />
+      <Box mt={1}>
+        <Typography variant="body2" color="text.secondary">
+          <Typography variant="subtitle2" component="strong">
+            Phone:{" "}
           </Typography>
-          <Typography variant="p" color="textSecondary" className="line">
-            <p className="bold">Address</p>: {card.address.street}{" "}
-            {card.address.houseNumber} {card.address.city}
+          {phone}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          <Typography variant="subtitle2" component="strong">
+            Address:{" "}
           </Typography>
-          <Typography variant="p" color="textSecondary" className="line">
-            <p className="bold">Card Number</p>: {card.bizNumber}
+          {street} {houseNumber} {city}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          <Typography variant="subtitle2" component="strong">
+            Card Number:{" "}
           </Typography>
-        </CardContent>
-        <Box display="flex" className="icons" p={1}>
-          <div className="left">
-            <Delete color="action" />
-            <Edit color="action" />
-          </div>
-          <div className="right">
-            <Phone color="action" />
-            <Favorite color="action" />
-          </div>
-        </Box>
+          {bizNumber}
+        </Typography>
       </Box>
-    </div>
+    </CardContent>
   );
 };
 

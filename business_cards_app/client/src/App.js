@@ -1,5 +1,6 @@
 import "./App.css";
-import CardComponent from "./cards/components/card/Card";
+import Cards from "./cards/components/Cards";
+// import CardComponent from "./cards/components/card/Card";
 // import PageHeader from "./components/PageHeader";
 // import Sandbox from "./sandbox/Sandbox";
 
@@ -8,7 +9,8 @@ function App() {
     <div className="App">
       {/* <PageHeader /> */}
       {/* <Sandbox /> */}
-      <CardComponent />
+      {/* <CardComponent /> */}
+      <Cards/>
     </div>
   );
 }
