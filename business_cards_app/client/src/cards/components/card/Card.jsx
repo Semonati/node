@@ -6,7 +6,9 @@ import CardBody from "./CardBody";
 import CardHead from "./CardHead";
 import CardActionBar from "./CardActionBar";
 
-const CardComponent = ({ card, likeCard, editCard, deleteCard }) => {
+const CardComponent = (props) => {
+  const { card, likeCard, deleteCard } = props;
+  
   return (
     <MuiCard sx={{ minWidth: 280, maxWidth: 250 }}>
       <CardActionArea>
@@ -16,8 +18,7 @@ const CardComponent = ({ card, likeCard, editCard, deleteCard }) => {
       <CardActionBar
         deleteCard={deleteCard}
         likeCard={likeCard}
-        editCard={editCard}
-        bizNumber={card.bizNumber}
+        cardId={card._id}
       />
     </MuiCard>
   );

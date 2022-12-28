@@ -6,7 +6,7 @@ const Cards = () => {
   const cards = [
     {
       _id: "639221ec70962dd4df2b709b",
-      title: "Business Name",
+      title: "First",
       subtitle: "Business Headline",
       description: "some desc",
       phone: "0500000000",
@@ -34,7 +34,7 @@ const Cards = () => {
     },
     {
       _id: "639221ec70962dd4df2b709c",
-      title: "Business Name",
+      title: "Second",
       subtitle: "Business Headline",
       description: "some desc",
       phone: "0500000000",
@@ -62,7 +62,7 @@ const Cards = () => {
     },
     {
       _id: "639221ec70962dd4df2b709d",
-      title: "Business Name",
+      title: "Third",
       subtitle: "Business Headline",
       description: "some desc",
       phone: "0500000000",
@@ -91,11 +91,9 @@ const Cards = () => {
   ];
 
   const handelCardDeletl = (bizNumber) =>
-    console.log("You delete card no. " + bizNumber);
+    console.log(`You delete card no. ${bizNumber}`);
   const handelLikeCard = (bizNumber) =>
-    console.log("You liked card no. " + bizNumber);
-  const handelEditCard = (bizNumber) =>
-    console.log("You edit card no. " + bizNumber);
+    console.log(`You liked card no. ${bizNumber}`);
 
   return (
     <Grid container spacing={2} pb={2}>
@@ -105,7 +103,6 @@ const Cards = () => {
             card={card}
             deleteCard={handelCardDeletl}
             likeCard={handelLikeCard}
-            editCard={handelEditCard}
           />
         </Grid>
       ))}

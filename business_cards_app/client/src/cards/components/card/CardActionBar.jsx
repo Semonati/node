@@ -5,7 +5,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import CallIcon from "@mui/icons-material/Call";
 
-const CardActionBar = ({ deleteCard, likeCard, editCard, bizNumber }) => {
+const CardActionBar = (props) => {
+    const { cardId, likeCard, deleteCard } = props;
   return (
     <CardActions
       disableSpacing
@@ -13,14 +14,14 @@ const CardActionBar = ({ deleteCard, likeCard, editCard, bizNumber }) => {
     >
       <Box>
         <IconButton
-          aria-label="add to favorites"
-          onClick={() => deleteCard(bizNumber)}
+          aria-label="delete card"
+          onClick={() => deleteCard(cardId)}
         >
           <DeleteIcon />
         </IconButton>
         <IconButton
-          aria-label="add to favorites"
-          onClick={() => editCard(bizNumber)}
+          aria-label="edit card"
+          onClick={() => console.log(`Move to component edit with card ${cardId}`)}
         >
           <ModeEditIcon />
         </IconButton>
@@ -32,7 +33,7 @@ const CardActionBar = ({ deleteCard, likeCard, editCard, bizNumber }) => {
         </IconButton>
         <IconButton
           aria-label="add to favorites"
-          onClick={() => likeCard(bizNumber)}
+          onClick={() => likeCard(cardId)}
         >
           <FavoriteIcon />
         </IconButton>
