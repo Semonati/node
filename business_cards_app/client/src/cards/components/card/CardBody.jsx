@@ -6,6 +6,8 @@ import {
   Typography,
 } from "@mui/material";
 
+import cardType from "../../models/types/cardTypes";
+
 const CardBody = ({ card }) => {
   const { title, subtitle, phone, address, bizNumber } = card;
   const { street, houseNumber, city } = address;
@@ -22,20 +24,20 @@ const CardBody = ({ card }) => {
           {phone}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          <Typography variant="subtitle2" component="strong">
-            Address:{" "}
-          </Typography>
+          <strong>Address: </strong>
           {street} {houseNumber} {city}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          <Typography variant="subtitle2" component="strong">
-            Card Number:{" "}
-          </Typography>
+          <strong>Card Number: </strong>
           {bizNumber}
         </Typography>
       </Box>
     </CardContent>
   );
+};
+
+CardBody.propTypes = {
+  card: cardType.isRequired,
 };
 
 export default CardBody;

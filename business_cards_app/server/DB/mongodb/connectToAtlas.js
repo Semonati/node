@@ -27,4 +27,3 @@ mongoose
     )
   );
 
-//mongodb+srv://businessCardApp:businessCardApp@businesscardapp.slp4shd.mongodb.net/?retryWrites=true&w=majority

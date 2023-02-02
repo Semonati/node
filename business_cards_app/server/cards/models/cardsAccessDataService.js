@@ -109,7 +109,7 @@ const likeCard = async (cardId, userId) => {
   return Promise.resolve("card update!");
 };
 
-const deleteCard = async (_id, user) => {
+const deleteCard = async (cardId) => {
   if (DB === "MONGODB") {
     try {
       const card = await Card.findByIdAndDelete(cardId);

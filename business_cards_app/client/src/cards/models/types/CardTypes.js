@@ -1,7 +1,7 @@
 import { shape, string, number, arrayOf } from "prop-types";
 
-import addressType from "./AddressType";
-import imageType from "./ImageType";
+import addressType from "./addressType";
+import imageType from "./imageType";
 
 const cardType = shape({
   _id: string,
@@ -15,7 +15,7 @@ const cardType = shape({
   likes: arrayOf(string).isRequired || undefined.isRequired,
   web: string.isRequired || undefined.isRequired,
   email: string.isRequired,
-  userId: string.isRequired,
+  user_id: string.isRequired,
   createdAt: string.isRequired,
 });
 

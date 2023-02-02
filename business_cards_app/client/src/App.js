@@ -1,16 +1,26 @@
 import "./App.css";
-import Cards from "./cards/components/Cards";
-// import CardComponent from "./cards/components/card/Card";
-// import PageHeader from "./components/PageHeader";
-// import Sandbox from "./sandbox/Sandbox";
+import { BrowserRouter } from "react-router-dom";
+
+import Layout from "./layout/Layout";
+import Router from "./routes/Router";
+import { ThemeProvider } from "./providers/ThemeProvider";
+import { UserProvider } from "./users/providers/UserProviders";
+import { SnackBarProvider } from "./providers/SnackBarProvifer";
 
 function App() {
   return (
     <div className="App">
-      {/* <PageHeader /> */}
-      {/* <Sandbox /> */}
-      {/* <CardComponent /> */}
-      <Cards/>
+      <BrowserRouter>
+        <ThemeProvider>
+          <SnackBarProvider>
+            <UserProvider>
+              <Layout>
+                <Router />
+              </Layout>
+            </UserProvider>
+          </SnackBarProvider>
+        </ThemeProvider>
+      </BrowserRouter>
     </div>
   );
 }

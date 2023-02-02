@@ -1,45 +1,85 @@
+import { useState } from "react";
 import { Box, CardActions } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import CallIcon from "@mui/icons-material/Call";
+import { func, object } from "prop-types";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../../../users/providers/UserProviders";
+import CardDeleteDialog from "./CardDeleteDialog";
+import ROUTES from "../../../routes/routerModel";
 
-const CardActionBar = (props) => {
-    const { cardId, likeCard, deleteCard } = props;
+const CardActionBar = ({ card, onDelete, handleLikeCard }) => {
+  const [isDialogOpen, setDialog] = useState(false);
+  const { user } = useUser();
+  const navigate = useNavigate();
+
+  const handleDialog = (trim) => {
+    if (trim === "open") return setDialog(true);
+    setDialog(false);
+  };
+  
+  const handleDeleteCard = () => {
+    handleDialog();
+    onDelete(card._id);
+  };
+
   return (
-    <CardActions
-      disableSpacing
-      sx={{ paddingTop: 0, justifyContent: "space-between" }}
-    >
-      <Box>
-        <IconButton
-          aria-label="delete card"
-          onClick={() => deleteCard(cardId)}
-        >
-          <DeleteIcon />
-        </IconButton>
-        <IconButton
-          aria-label="edit card"
-          onClick={() => console.log(`Move to component edit with card ${cardId}`)}
-        >
-          <ModeEditIcon />
-        </IconButton>
-      </Box>
+    <>
+      <CardActions
+        disableSpacing
+        sx={{ paddingTop: 0, justifyContent: "space-between" }}
+      >
+        <Box>
+          {user && (user.isAdmin || user._id === card.user_id) && (
+            <IconButton
+              aria-label="delete card"
+              onClick={() => handleDialog("open")}
+            >
+              <DeleteIcon />
+            </IconButton>
+          )}
 
-      <Box>
-        <IconButton aria-label="call business">
-          <CallIcon />
-        </IconButton>
-        <IconButton
-          aria-label="add to favorites"
-          onClick={() => likeCard(cardId)}
-        >
-          <FavoriteIcon />
-        </IconButton>
-      </Box>
-    </CardActions>
+          {user && user._id === card.user_id && (
+            <IconButton
+              aria-label="edit card"
+              onClick={() => navigate(`${ROUTES.EDIT_CARD}/${card._id}`)}
+            >
+              <ModeEditIcon />
+            </IconButton>
+          )}
+        </Box>
+
+        <Box>
+          <IconButton aria-label="call business">
+            <CallIcon />
+          </IconButton>
+          {user && (
+            <IconButton
+              aria-label="add to favorites"
+              onClick={() => handleLikeCard(card._id)}
+            >
+              <FavoriteIcon />
+            </IconButton>
+          )}
+        </Box>
+      </CardActions>
+
+      <CardDeleteDialog
+        isDialogOpen={isDialogOpen}
+        onChangeDialog={handleDialog}
+        onDelete={handleDeleteCard}
+      />
+    </>
   );
+};
+
+CardActionBar.propTypes = {
+  card: object.isRequired,
+  onDelete: func.isRequired,
+  // handleLikeCard: func.isRequired,
 };
 
 export default CardActionBar;

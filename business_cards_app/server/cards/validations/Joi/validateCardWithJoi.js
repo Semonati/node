@@ -8,7 +8,7 @@ const validateCardWithJoi = (card) => {
 
   const schema = Joi.object({
     title: titleAndSub,
-    subTitle: titleAndSub,
+    subtitle: titleAndSub,
     description: Joi.string().min(2).max(1024).required(),
     phone: Joi.string()
       .ruleset.regex(/0[0-9]{1,2}\-?\s?[0-9]{3}\s?[0-9]{4}/)
@@ -23,7 +23,8 @@ const validateCardWithJoi = (card) => {
 
     web: Joi.string()
       .ruleset.regex(urlRegex)
-      .rule({ message: 'card "web" mast be a valid url' }),
+      .rule({ message: 'card "web" must be a valid url' })
+      .allow(""),
 
     image: Joi.object()
       .keys({

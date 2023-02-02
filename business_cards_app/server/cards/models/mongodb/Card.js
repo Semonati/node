@@ -5,7 +5,7 @@ const { DEFAULT_VALIDATION, URL } = require("../../helpers/mongooseValidators");
 
 const cardSchema = new mongoose.Schema({
   title: DEFAULT_VALIDATION,
-  subTitle: DEFAULT_VALIDATION,
+  subtitle: DEFAULT_VALIDATION,
   description: {
     ...DEFAULT_VALIDATION,
     maxLength: 1024,
