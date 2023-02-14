@@ -28,7 +28,8 @@ const Menu = ({ isOpen, anchorEl, onClose }) => {
       transformOrigin={{
         vertical: "top",
         horizontal: "right",
-      }}>
+      }}
+    >
       <Box>
         <MenuLink
           text="about"
@@ -62,7 +63,7 @@ const Menu = ({ isOpen, anchorEl, onClose }) => {
             />
             <MenuLink
               text="edit account"
-              navigateTo={ROUTES.EDIT_USER}
+              navigateTo={`${ROUTES.EDIT_USER}/${user._id}`}
               onClick={onClose}
             />
 

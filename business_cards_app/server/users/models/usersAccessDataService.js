@@ -30,7 +30,7 @@ const loginUser = async ({ email, password }) => {
     try {
       let user = await User.findOne({ email });
       if (!user) {
-        throw new Error("Authentication Error: Invalid email or password");
+        throw new Error("Authentication Error: email or password");
       }
       const validPassword = comparePassword(password, user.password);
       if (!validPassword) {

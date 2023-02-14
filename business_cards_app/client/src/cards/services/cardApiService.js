@@ -13,7 +13,7 @@ export const getCards = async () => {
 
 export const getCard = async (cardId) => {
   try {
-    const { data } = await axios.get(`${apiUrl}/cards/${cardId}`);
+    const { data } = await axios.get(`${apiUrl}/cards/${cardId}`);    
     return data;
   } catch (error) {
     return Promise.reject(error.message);
@@ -38,9 +38,12 @@ export const createCard = async (card) => {
   }
 };
 
-export const editCard = async (card) => {
+export const editCard = async (cardId, normelizedCard) => {
   try {
-    const { data } = await axios.put(`${apiUrl}/cards`, card);
+    const { data } = await axios.put(
+      `${apiUrl}/cards/${cardId}`,
+      normelizedCard
+    );
     return data;
   } catch (error) {
     return Promise.reject(error.message);

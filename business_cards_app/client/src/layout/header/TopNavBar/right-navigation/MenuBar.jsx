@@ -5,10 +5,11 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import ROUTES from "../../../../routes/routerModel";
 import NavBarLink from "../../../../routes/components/NavBarLink";
+import { useUser } from "../../../../users/providers/UserProviders";
+
 
 const MenuBar = ({ isMenuOpen, anchorEl, onCloseMenu }) => {
-  const user = true;
-  // const user = false
+  const {user} = useUser();
 
   return (
     <MuiMenu

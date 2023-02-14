@@ -10,10 +10,10 @@ import CardActionBar from "./CardActionBar";
 import cardType from "../../models/types/cardTypes";
 import ROUTES from "../../../routes/routerModel";
 
-const CardComponent = ({ card, onDelete, handleLikeCard }) => {
+const CardComponent = ({ card, onDelete, onLike }) => {
   const navigate = useNavigate();
 
-  // handleLikeCard()
+
   return (
     <MuiCard sx={{ minWidth: 280, maxWidth: 250 }}>
       <CardActionArea
@@ -24,8 +24,10 @@ const CardComponent = ({ card, onDelete, handleLikeCard }) => {
       </CardActionArea>
       <CardActionBar
         onDelete={onDelete}
-        handleLikeCard={handleLikeCard}
+        onLike={onLike}
         card={card}
+        cardLikes={card.likes}
+        // addDetalis={moreDetails}
       />
     </MuiCard>
   );

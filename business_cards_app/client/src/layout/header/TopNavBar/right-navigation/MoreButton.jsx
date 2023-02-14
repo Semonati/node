@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import { useMenu } from "../menu/MenuProvider";
 
-const MoreButton = ({ onClick }) => {
+const MoreButton = () => {
     const setOpen = useMenu();
 
   return (

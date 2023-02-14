@@ -18,13 +18,12 @@ export const UserProvider = ({ children }) => {
   const value = useMemo(() => {
     return { user, setUser, token, setToken };
   }, [user, token]);
-
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
 
 export const useUser = () => {
   const context = useContext(UserContext);
-  if (!context) throw new Error("useUser must be used within a NameProvider");
+  if (!context) throw new Error("useUser must be used within a UserProvider");
   return context;
 };
 

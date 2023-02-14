@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import SearchBar from "./SearchBar";
@@ -9,15 +9,22 @@ import Logged from "./Logged";
 import NotLogged from "./NotLogged";
 import { useTheme } from "../../../../providers/ThemeProvider";
 import { useUser } from "../../../../users/providers/UserProviders";
+import useCards from "../../../../cards/hooks/useCards";
 
 const RightNavBar = () => {
   const { isDark, toggelDarkMode } = useTheme();
   const { user } = useUser();
+  const { value, handleGetCards } = useCards();
+  // console.log(cards);
+
+  useEffect(() => {
+    handleGetCards();
+  }, []);
 
   return (
     <>
       <Box sx={{ display: { xs: "none", md: "inline-flex" } }}>
-        <SearchBar />
+        <SearchBar cards={value.cards} handleGetCards={handleGetCards} />
 
         <IconButton sx={{ marginLeft: 1 }} onClick={toggelDarkMode}>
           {isDark ? <LightModeIcon /> : <DarkModeIcon />}

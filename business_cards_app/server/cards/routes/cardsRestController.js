@@ -28,11 +28,12 @@ router.get("/", async (req, res) => {
 
 router.get("/my-cards", auth, async (req, res) => {
   try {
-    const userId = { _id: "638799b85ad2be73423d010d" };
-    const { isBusiness } = req.user;
-    if (!isBusiness)
-      throw new Error("Authorization Error: Only business can find this card");
-    const card = await getMyCards(userId);
+    const { isAdmin,isBusiness, _id } = req.user;
+    if (!isBusiness && !isAdmin)
+      throw new Error(
+        "Authorization Error: Only business or admin can find this card"
+      );
+    const card = await getMyCards(_id);
     return res.send(card);
   } catch (error) {
     return handleError(res, error.status || 500, error.message);
@@ -119,13 +120,8 @@ router.patch("/update-card-number/:id", auth, async (req, res) => {
 router.delete("/:id", auth, async (req, res) => {
   try {
     const cardId = req.params.id;
-    const { isAdmin, _id } = req.user;
-    const user = { _id: "6388f0854e7c5ed16d03a8ec" };
-    if (_id !== user._id && !isAdmin)
-      throw new Error(
-        "Authorization Error: You must be an admin or card owner to delete the card"
-      );
-    const card = await deleteCard(cardId);
+    const user = req.user;
+    const card = await deleteCard(cardId, user);
     return res.send(card);
   } catch (error) {
     return handleError(res, error.status || 500, error.message);

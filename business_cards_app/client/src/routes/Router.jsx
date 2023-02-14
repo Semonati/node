@@ -1,5 +1,4 @@
 import React from "react";
-// import PropTypes from "prop-types";
 import { Routes, Route } from "react-router-dom";
 import ROUTES from "./routerModel";
 import CardsPage from "../cards/pages/CardsPage";
@@ -28,6 +27,8 @@ import FormTest from "../sandbox/forms/FormTest";
 import MyCardsPage from "../cards/pages/MyCardsPage";
 import CreateCardPage from "../cards/pages/CreateCardPage";
 import EditCardPage from "../cards/pages/EditCardPage";
+import EditUserPage from "../users/pages/EditUserPage";
+import FavCardsPage from "../cards/pages/FavCardPage";
 
 const Router = () => {
   return (
@@ -35,10 +36,7 @@ const Router = () => {
       <Route path={ROUTES.ROOT} element={<CardsPage />} />
       <Route path={ROUTES.ABOUT} element={<AboutPage />} />
       <Route path={ROUTES.CARDS} element={<CardsPage />} />
-      <Route
-        path={`${ROUTES.EDIT_CARD}/:cardId`}
-        element={<EditCardPage />}
-      />
+      <Route path={`${ROUTES.EDIT_CARD}/:cardId`} element={<EditCardPage />} />
       <Route
         path={`${ROUTES.CARD_DETAILS}/:cardId`}
         element={<CardDetailsPage />}
@@ -46,7 +44,9 @@ const Router = () => {
       <Route path={ROUTES.MY_CARDS} element={<MyCardsPage />} />
       <Route path={ROUTES.CREATE_CARD} element={<CreateCardPage />} />
       <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+      <Route path={ROUTES.FAV_CRDES} element={<FavCardsPage />} />
       <Route path={ROUTES.SIGNUP} element={<SignupPage />} />
+      <Route path={`${ROUTES.EDIT_USER}/:userId`} element={<EditUserPage />} />
       <Route path={ROUTES.SANDBOX} element={<Sandbox />}>
         <Route path="logic" element={<CompLogic />} />
         <Route path="custom-counter-hook" element={<CustomCounterHook />} />
@@ -84,7 +84,5 @@ const Router = () => {
     </Routes>
   );
 };
-
-Router.propTypes = {};
 
 export default Router;

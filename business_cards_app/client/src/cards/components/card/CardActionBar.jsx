@@ -10,17 +10,28 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "../../../users/providers/UserProviders";
 import CardDeleteDialog from "./CardDeleteDialog";
 import ROUTES from "../../../routes/routerModel";
+import useCards from "../../hooks/useCards";
 
-const CardActionBar = ({ card, onDelete, handleLikeCard }) => {
+const CardActionBar = ({ card, onDelete, onLike, cardLikes }) => {
   const [isDialogOpen, setDialog] = useState(false);
   const { user } = useUser();
   const navigate = useNavigate();
+  const [isLike, setLike] = useState(() => {
+    if (!user) return false;
+    return !!cardLikes.find((id) => id === user._id);
+  });
+  const { handleLikeCard } = useCards();
 
+  const handleLike = async () => {
+    setLike((prev) => !prev);
+    await handleLikeCard(card._id);
+    onLike();
+  };
   const handleDialog = (trim) => {
     if (trim === "open") return setDialog(true);
     setDialog(false);
   };
-  
+
   const handleDeleteCard = () => {
     handleDialog();
     onDelete(card._id);
@@ -57,11 +68,8 @@ const CardActionBar = ({ card, onDelete, handleLikeCard }) => {
             <CallIcon />
           </IconButton>
           {user && (
-            <IconButton
-              aria-label="add to favorites"
-              onClick={() => handleLikeCard(card._id)}
-            >
-              <FavoriteIcon />
+            <IconButton aria-label="add to favorites" onClick={handleLike}>
+              <FavoriteIcon color={isLike ? "error" : "inherit"} />
             </IconButton>
           )}
         </Box>
@@ -79,7 +87,7 @@ const CardActionBar = ({ card, onDelete, handleLikeCard }) => {
 CardActionBar.propTypes = {
   card: object.isRequired,
   onDelete: func.isRequired,
-  // handleLikeCard: func.isRequired,
+  onLike: func.isRequired,
 };
 
 export default CardActionBar;

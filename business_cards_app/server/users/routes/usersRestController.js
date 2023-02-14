@@ -73,6 +73,7 @@ router.get("/:id", auth, async (req, res) => {
     const { id } = req.params;
     const { _id, isAdmin } = req.user;
     const user = await getUser(id);
+
     if (_id !== id && !isAdmin)
       return handleError(
         res,
@@ -88,8 +89,10 @@ router.get("/:id", auth, async (req, res) => {
 router.put("/:id", auth, async (req, res) => {
   try {
     const { id } = req.params;
+    console.log(id);
     const { _id } = req.user;
     let user = req.body;
+    console.log(user);
     const { error } = validateUserUpdate(user);
     if (error)
       return handleError(res, 400, `Joi Error: ${error.details[0].message}`);

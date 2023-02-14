@@ -17,7 +17,7 @@ const CardFeedback = ({ isPending, error, cards, onDelete, onLike }) => {
       </Typography>
     );
   if (cards && !!cards.length)
-    return <Cards cards={cards} onDelete={onDelete} />;
+    return <Cards cards={cards} onDelete={onDelete} onLike={onLike} />;
 };
 
 CardFeedback.propTypes = {
@@ -25,7 +25,11 @@ CardFeedback.propTypes = {
   error: string,
   cards: arrayOf(cardType),
   onDelete: func.isRequired,
-  // onLike: func.isRequired,
+  onLike: func.isRequired,
+};
+
+CardFeedback.defaultProps = {
+  onLike: () => {},
 };
 
 export default CardFeedback;

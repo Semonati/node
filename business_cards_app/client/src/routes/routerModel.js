@@ -1,5 +1,5 @@
 const ROUTES = {
-  ROOT: "/cards",
+  ROOT: "/",
   ABOUT: "/about",
   CARDS: "/cards",
   MY_CARDS: "/my-cards",
@@ -7,11 +7,11 @@ const ROUTES = {
   CREATE_CARD: "/create-card",
   EDIT_CARD: "/edit-card",
   CARD_DETAILS: "/card-info",
-  USER_PROFILE: "/user-profile",
-  EDIT_USER: "edit-user",
   LOGIN: "/login",
   SIGNUP: "/signup",
   LOGOUT: "/logout",
+  USER_PROFILE: "/user-profile",
+  EDIT_USER: "/edit-user",
   SANDBOX: "/sandbox",
 };
 

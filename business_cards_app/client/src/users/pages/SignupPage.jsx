@@ -151,6 +151,7 @@ const SignupPage = () => {
           onChange={rest.handleChange}
           data={value.data}
           sm={6}
+          required={false}
         />
         <Input
           name="zip"

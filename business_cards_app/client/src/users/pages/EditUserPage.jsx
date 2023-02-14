@@ -1,27 +1,41 @@
-import React from "react";
-import useForm from "./../../forms/hooks/useForm";
-import initialCardForm from "./../helpers/initialForms/initialCardForm";
-import createCradSchema from "../models/joi-schema/createCardSchima";
-import useCards from "./../hooks/useCards";
-import { useUser } from "../../users/providers/UserProviders";
-import { Navigate } from "react-router-dom";
-import { Container } from "@mui/material";
+import React, { useEffect } from "react";
+import { useNavigate, Navigate } from "react-router-dom";
+import { Checkbox, Container, FormControlLabel, Grid } from "@mui/material";
+import { useParams } from "react-router-dom";
+
+import ROUTES from "../../routes/routerModel";
 import Form from "../../forms/components/Form";
 import Input from "../../forms/components/Input";
-import ROUTES from "../../routes/routerModel";
+import { useUser } from "../../users/providers/UserProviders";
+import useForm from "../../forms/hooks/useForm";
+import normalizeUser from "../helpers/normalization/normalizeUser";
+import initialSignupForm from "../helpers/initialForms/initialSignupForm";
+import signupSchema from "../models/joi-schema.js/signupSchema";
+import useUsers from "../hooks/useUsers";
+import mapUserToModel from "../helpers/normalization/mapToModelUser";
 
-const CreateCardPage = () => {
-  const { handleCreateCard } = useCards();
+const EditUserPage = () => {
   const { user } = useUser();
-  const { value, ...rest } = useForm(
-    initialCardForm,
-    createCradSchema,
-    handleCreateCard
-  );
+  const { handleGetUser, handleEditUser, userValue } = useUsers();
+  const { userId } = useParams();
+  const navigate = useNavigate();
+  const { value, ...rest } = useForm(initialSignupForm, signupSchema, () => {
+    handleEditUser(userValue.user._id, {
+      ...normalizeUser({ ...value.data }),
+      isAdmin: userValue.isAdmin,
+    });
+  });
 
-
+  useEffect(() => {
+    handleGetUser(userId).then((data) => {
+      if (data._id !== userId) return navigate(ROUTES.CARDS);
+      const modeledUser = mapUserToModel(data);
+      rest.setData(modeledUser);
+    });
+  }, []);
+  
   if (!user) return <Navigate replace to={ROUTES.CARDS} />;
-
+// console.log(reuserValuest);
   return (
     <Container
       sx={{
@@ -37,29 +51,29 @@ const CreateCardPage = () => {
         errors={value.errors}
         onChange={rest.validateForm}
         styles={{ maxWidth: "800px" }}
-        title="create card"
+        title="edit user"
         to={ROUTES.CARDS}
       >
         <Input
-          name="title"
-          label="title"
-          error={value.errors.title}
+          name="first"
+          label="first"
+          error={value.errors.first}
           onChange={rest.handleChange}
           data={value.data}
           sm={6}
         />
         <Input
-          name="subtitle"
-          label="subtitle"
-          error={value.errors.subtitle}
+          name="middle"
+          label="middle"
+          error={value.errors.middle}
           onChange={rest.handleChange}
           data={value.data}
           sm={6}
         />
         <Input
-          name="description"
-          label="description"
-          error={value.errors.description}
+          name="last"
+          label="last"
+          error={value.errors.last}
           onChange={rest.handleChange}
           data={value.data}
           sm={6}
@@ -67,47 +81,26 @@ const CreateCardPage = () => {
         <Input
           name="phone"
           label="phone"
-          type="phone"
           error={value.errors.phone}
           onChange={rest.handleChange}
           data={value.data}
           sm={6}
         />
         <Input
-          name="email"
-          label="email"
-          type="email"
-          error={value.errors.email}
-          onChange={rest.handleChange}
-          data={value.data}
-          sm={6}
-        />
-        <Input
-          name="webUrl"
-          label="web"
-          error={value.errors.webUrl}
-          onChange={rest.handleChange}
-          data={value.data}
-          sm={6}
-          required={false}
-        />
-        <Input
           name="imageUrl"
-          label="image url"
+          label="url"
           error={value.errors.imageUrl}
           onChange={rest.handleChange}
           data={value.data}
           sm={6}
-          required={false}
         />
         <Input
           name="imageAlt"
-          label="image alt"
-          error={value.errors.imageAlt}
+          label="alt"
+          error={value.errors.imageUrl}
           onChange={rest.handleChange}
           data={value.data}
           sm={6}
-          required={false}
         />
         <Input
           name="state"
@@ -116,7 +109,6 @@ const CreateCardPage = () => {
           onChange={rest.handleChange}
           data={value.data}
           sm={6}
-          required={false}
         />
         <Input
           name="country"
@@ -145,7 +137,6 @@ const CreateCardPage = () => {
         <Input
           name="houseNumber"
           label="houseNumber"
-          type="number"
           error={value.errors.houseNumber}
           onChange={rest.handleChange}
           data={value.data}
@@ -154,16 +145,24 @@ const CreateCardPage = () => {
         <Input
           name="zip"
           label="zip"
-          type="number"
           error={value.errors.zip}
           onChange={rest.handleChange}
           data={value.data}
           sm={6}
-          required={false}
         />
+        <Grid item>
+          <FormControlLabel
+            onChange={(e) => {
+              rest.setData({ ...value.data, isBusiness: !!e.target.checked });
+            }}
+            name="isBusiness"
+            control={<Checkbox value={value.data.isBusiness} color="primary" />}
+            label="Change business status"
+          />
+        </Grid>
       </Form>
     </Container>
   );
 };
 
-export default CreateCardPage;
+export default EditUserPage;

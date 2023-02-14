@@ -2,7 +2,7 @@ import React from "react";
 import { string, node, object } from "prop-types";
 import { Link } from "react-router-dom";
 
-const NavBarLink = ({ to, color, sx, children }) => {
+const NavBarLink = ({ to, sx, children }) => {
   return (
     <Link to={to} style={{ textDecorationLine: "none", ...sx }}>
       {children}

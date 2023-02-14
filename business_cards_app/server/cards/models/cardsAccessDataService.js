@@ -6,7 +6,7 @@ const DB = process.env.DB || "MONGODB";
 const getCards = async () => {
   if (DB === "MONGODB") {
     try {
-      const cards = await Card.find();
+      const cards = await Card.find({}, { __v: 0, password: 0 });
       return Promise.resolve(cards);
     } catch (error) {
       error.status = 404;
@@ -36,8 +36,6 @@ const getMyCards = async (user_id) => {
   if (DB === "MONGODB") {
     try {
       const cards = await Card.find({ user_id: user_id });
-      if (!cards.length)
-        throw new Error("Could not find any card in the database");
       return Promise.resolve(cards);
     } catch (error) {
       error.status = 404;
@@ -109,14 +107,19 @@ const likeCard = async (cardId, userId) => {
   return Promise.resolve("card update!");
 };
 
-const deleteCard = async (cardId) => {
+const deleteCard = async (cardId, user) => {
   if (DB === "MONGODB") {
     try {
-      const card = await Card.findByIdAndDelete(cardId);
+      let card = await Card.findById(cardId);
       if (!card)
         throw new Error(
           "could not delete this card because a card with this ID cannot be found in the database"
         );
+      if (!user.isAdmin && user._id !== card.user_id.toHexString())
+        throw new Error(
+          "Authorization Error: Only the user who created the business card or admin can delete this card"
+        );
+      card = await Card.findByIdAndDelete(cardId);
       return Promise.resolve(card);
     } catch (error) {
       error.status = 400;

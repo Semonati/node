@@ -8,6 +8,7 @@ import NavItem from "../../../../routes/components/NavItem";
 
 const LeftNavBar = () => {
   const { user } = useUser();
+
   return (
     <Box>
       <LogoIcon />

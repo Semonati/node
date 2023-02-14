@@ -1,8 +1,9 @@
-import { useState, useCallback, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useCallback, useMemo, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import useAxios from "../../hooks/useAxios";
 import { useSnackBar } from "../../providers/SnackBarProvifer";
 import ROUTES from "../../routes/routerModel";
+import { useUser } from "../../users/providers/UserProviders";
 import normalizeCard from "../helpers/normalization/normalizeCard";
 import {
   changeLikeStatus,
@@ -21,6 +22,25 @@ const useCards = () => {
   const [error, setError] = useState(null);
   const snack = useSnackBar();
   const navigate = useNavigate();
+  const { user } = useUser();
+  const [query, setQuery] = useState("");
+  const [filtered, setFiltered] = useState(null);
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    setQuery(searchParams.get("q") ?? "");
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (cards) {
+      setFiltered(
+        cards.filter(
+          (card) =>
+            card.title.includes(query) || String(card.bizNumber).includes(query)
+        )
+      );
+    }
+  }, [cards, query]);
 
   useAxios();
 
@@ -43,11 +63,13 @@ const useCards = () => {
       requestStatus(false, error, null);
     }
   }, []);
-  const handleGetCard = useCallback(async () => {
+
+  const handleGetCard = useCallback(async (cardId) => {
     try {
       setIsPending(true);
-      const card = await getCard();
+      const card = await getCard(cardId);
       requestStatus(false, null, null, card);
+      return card;
     } catch (error) {
       requestStatus(false, error, null);
     }
@@ -63,6 +85,30 @@ const useCards = () => {
     }
   }, []);
 
+  const handleCreateCard = useCallback(async (cardFromClient) => {
+    try {
+      setIsPending(true);
+      const normelizedCard = normalizeCard(cardFromClient);
+      const card = await createCard(normelizedCard);
+      snack("success", "A new business cars was seccessfully created");
+      return requestStatus(false, null, card);
+    } catch (error) {
+      return requestStatus(false, error, null);
+    }
+  }, []);
+
+  const handleUpdateCard = useCallback(async (cardId, cardFromClient) => {
+    try {
+      setIsPending(true);
+      const card = await editCard(cardId, cardFromClient);
+      requestStatus(false, null, null, card);
+      snack("success", "The card was seccessfully updated");
+      navigate(ROUTES.MY_CARDS);
+    } catch (error) {
+      requestStatus(false, error, null);
+    }
+  }, []);
+
   const handleDeleteCard = useCallback(async (cardId) => {
     try {
       setIsPending(true);
@@ -75,42 +121,32 @@ const useCards = () => {
     }
   }, []);
 
-  const handleCreateCard = useCallback(async (cardFromClient) => {
-    try {
-      setIsPending(true);
-      const normalizedCard = normalizeCard(cardFromClient);
-      const cards = await createCard(normalizedCard);
-      return requestStatus(false, null, cards);
-    } catch (error) {
-      return requestStatus(false, error, null);
-    }
-  }, []);
-
-  const handleUpdateCard = useCallback(async (cardId, cardFromClient) => {
-    try {
-      setIsPending(true);
-      const card = await editCard(cardId);
-      requestStatus(false, null, null, card);
-      snack("success", "The card was seccessfully updated");
-    } catch (error) {
-      requestStatus(false, error, null);
-    }
-  }, []);
-
   const handleLikeCard = async (cardId) => {
     try {
       setIsPending(false);
       const card = await changeLikeStatus(cardId);
-      const cards = await getCards();
       return requestStatus(false, null, cards, card);
     } catch (error) {
       return requestStatus(false, error, null);
     }
   };
 
+  const handleGetFavCards = useCallback(async () => {
+    try {
+      setIsPending(true);
+      const cards = await getCards();
+      const favCards = cards.filter(
+        (card) => !!card.likes.find((id) => id === user._id)
+      );
+      requestStatus(false, null, favCards);
+    } catch (error) {
+      requestStatus(false, error, null);
+    }
+  }, []);
+
   const value = useMemo(() => {
-    return { isPending, card, cards, error };
-  }, [isPending, card, cards, error]);
+    return { isPending, card, cards, error, filtered };
+  }, [isPending, card, cards, error, filtered]);
 
   return {
     value,
@@ -121,6 +157,7 @@ const useCards = () => {
     handleCreateCard,
     handleUpdateCard,
     handleLikeCard,
+    handleGetFavCards,
   };
 };
 
