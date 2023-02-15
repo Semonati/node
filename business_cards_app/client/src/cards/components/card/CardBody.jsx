@@ -5,7 +5,6 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { useParams } from "react-router-dom";
 
 import cardType from "../../models/types/cardTypes";

@@ -3,6 +3,7 @@ import { func, object, string } from "prop-types";
 import Form from "../../forms/components/Form";
 import Input from "../../forms/components/Input";
 import { useUser } from "../../users/providers/UserProviders";
+import ChangeBizNumber from "../pages/ChangeBizNumber";
 
 const CardForm = ({
   onSubmit,
@@ -12,10 +13,10 @@ const CardForm = ({
   onInputChange,
   data,
   title,
+  changeBizNumber,
 }) => {
-
   const { user } = useUser();
-  
+  // console.log(data);
   return (
     <Form
       onSubmit={onSubmit}
@@ -24,6 +25,7 @@ const CardForm = ({
       onChange={onFormChange}
       styles={{ maxWidth: "800px" }}
       title={title}
+      changeBizNumber={changeBizNumber}
     >
       <Input
         name="title"
@@ -32,6 +34,7 @@ const CardForm = ({
         onChange={onInputChange}
         data={data}
         sm={6}
+        changeBizNumber={changeBizNumber}
       />
       <Input
         name="subtitle"
@@ -40,6 +43,7 @@ const CardForm = ({
         onChange={onInputChange}
         data={data}
         sm={6}
+        changeBizNumber={changeBizNumber}
       />
       <Input
         name="description"
@@ -48,6 +52,7 @@ const CardForm = ({
         onChange={onInputChange}
         data={data}
         sm={6}
+        changeBizNumber={changeBizNumber}
       />
       <Input
         name="phone"
@@ -57,6 +62,7 @@ const CardForm = ({
         onChange={onInputChange}
         data={data}
         sm={6}
+        changeBizNumber={changeBizNumber}
       />
       <Input
         name="email"
@@ -66,6 +72,7 @@ const CardForm = ({
         onChange={onInputChange}
         data={data}
         sm={6}
+        changeBizNumber={changeBizNumber}
       />
       <Input
         name="webUrl"
@@ -74,6 +81,7 @@ const CardForm = ({
         onChange={onInputChange}
         data={data}
         sm={6}
+        changeBizNumber={changeBizNumber}
         required={false}
       />
       <Input
@@ -83,6 +91,7 @@ const CardForm = ({
         onChange={onInputChange}
         data={data}
         sm={6}
+        changeBizNumber={changeBizNumber}
         required={false}
       />
       <Input
@@ -92,6 +101,7 @@ const CardForm = ({
         onChange={onInputChange}
         data={data}
         sm={6}
+        changeBizNumber={changeBizNumber}
         required={false}
       />
       <Input
@@ -101,6 +111,7 @@ const CardForm = ({
         onChange={onInputChange}
         data={data}
         sm={6}
+        changeBizNumber={changeBizNumber}
         required={false}
       />
       <Input
@@ -110,6 +121,7 @@ const CardForm = ({
         onChange={onInputChange}
         data={data}
         sm={6}
+        changeBizNumber={changeBizNumber}
       />
       <Input
         name="city"
@@ -118,6 +130,7 @@ const CardForm = ({
         onChange={onInputChange}
         data={data}
         sm={6}
+        changeBizNumber={changeBizNumber}
       />
       <Input
         name="street"
@@ -126,6 +139,7 @@ const CardForm = ({
         onChange={onInputChange}
         data={data}
         sm={6}
+        changeBizNumber={changeBizNumber}
       />
       <Input
         name="houseNumber"
@@ -135,6 +149,7 @@ const CardForm = ({
         onChange={onInputChange}
         data={data}
         sm={6}
+        changeBizNumber={changeBizNumber}
       />
       <Input
         name="zip"
@@ -144,19 +159,11 @@ const CardForm = ({
         onChange={onInputChange}
         data={data}
         sm={6}
+        changeBizNumber={changeBizNumber}
         required={false}
       />
-      { user.isAdmin && (
-        <Input
-          name="bizNumber"
-          label="bizNumber"
-          type="number"
-          error={errors.bizNumber}
-          onChange={onInputChange}
-          data={data}
-          sm={6}
-          required={false}
-        />
+      {user.isAdmin && (
+        <ChangeBizNumber errors={errors} onInputChange={onInputChange} data={data} />
       )}
     </Form>
   );

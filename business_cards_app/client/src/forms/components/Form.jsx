@@ -12,15 +12,15 @@ const Form = ({
   onSubmit,
   onReset,
   onChange,
-  to ,
+  to,
   color,
   spacing,
   styles,
   children,
+  changeBizNumber,
 }) => {
   const navigate = useNavigate();
 
-  console.log();
   return (
     <Box
       component="form"
@@ -28,7 +28,8 @@ const Form = ({
       sx={{ mt: 2, p: { xs: 1, sm: 2 }, ...styles }}
       onSubmit={onSubmit}
       autoComplete="off"
-      noValidate>
+      noValidate
+    >
       <Typography align="center" variant="h5" component="h1" mb={2}>
         {title.toUpperCase()}
       </Typography>
@@ -50,7 +51,7 @@ const Form = ({
           <FormButton
             node={<LoopIcon />}
             variant="outlined"
-            component="div"            
+            component="div"
             onClick={onReset}
           />
         </Grid>

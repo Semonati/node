@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import { Container } from "@mui/material";
 import { useParams } from "react-router-dom";
 
@@ -14,8 +14,8 @@ import createCradSchema from "../models/joi-schema/createCardSchima";
 import CardForm from "../components/CardForm";
 
 const EditCardPage = () => {
+  const [changeBizNumber, setBizNumber] = useState(false);
   const { cardId } = useParams();
-  const navigate = useNavigate();
   const { value, ...rest } = useForm(initialCardForm, createCradSchema, () => {
     handleUpdateCard(card._id, {
       ...normalizeCard({ ...value.data }),
@@ -33,17 +33,17 @@ const EditCardPage = () => {
 
   useEffect(() => {
     handleGetCard(cardId).then((data) => {
-      if (user._id !== data.user_id) return navigate(ROUTES.CARDS);
+      console.log(data);
+      if (user._id !== data.user_id) {
+        setBizNumber(true)
+      }
       const modeledCard = mapCardToModel(data);
       rest.setData(modeledCard);
     });
   }, []);
-  
-  console.log(value.data);
-  // if (user.isAdmin)
-  //   return <Navigate replace to={`${ROUTES.CHANGE_BIZ_NUMBER}/${cardId}`} />;
-  if (!user) return <Navigate replace to={ROUTES.CARDS} />;
 
+
+  if (!user) return <Navigate replace to={ROUTES.CARDS} />;
 
   return (
     <>
@@ -63,6 +63,7 @@ const EditCardPage = () => {
           onFormChange={rest.validateForm}
           onInputChange={rest.handleChange}
           data={value.data}
+          changeBizNumber={changeBizNumber}
         />
       </Container>
     </>

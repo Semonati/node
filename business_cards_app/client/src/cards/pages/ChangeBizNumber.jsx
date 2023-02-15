@@ -1,12 +1,20 @@
 import React from "react";
-import { useParams } from "react-router-dom";
-import { useUser } from "../../users/providers/UserProviders";
+import Input from "../../forms/components/Input";
 
-const ChangeBizNumber = () => {
-  const { cardId } = useParams();
-  const { user } = useUser();
-  // console.log(user);
-  return <div>{cardId}</div>;
+const ChangeBizNumber = ({ errors, onInputChange, data }) => {
+    // console.log(data);
+  return (
+    <Input
+      name="bizNumber"
+      label="bizNumber"
+      type="number"
+      error={errors.bizNumber}
+      onChange={onInputChange}
+      data={data}
+      sm={6}
+      required={false}
+    />
+  );
 };
 
 export default ChangeBizNumber;

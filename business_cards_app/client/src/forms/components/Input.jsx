@@ -12,6 +12,7 @@ const Input = ({
   label,
   required,
   error,
+  changeBizNumber,
   onChange,
   ...rest
 }) => {
@@ -28,6 +29,7 @@ const Input = ({
         helperText={error}
         error={Boolean(error)}
         onChange={onChange}
+        disabled={changeBizNumber}
         fullWidth
         autoComplete="off"
       />

@@ -43,7 +43,9 @@ router.get("/my-cards", auth, async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
+    // console.log(id);
     const card = await getCard(id);
+    // console.log(card);
     return res.send(card);
   } catch (error) {
     return handleError(res, error.status || 500, error.message);
@@ -77,7 +79,7 @@ router.put("/:id", auth, async (req, res) => {
     const { error } = validateCard(card);
     if (error)
       return handleError(res, 400, `Joi Error: ${error.details[0].message}`);
-    if (_id !== card.user_id || !isBusiness)
+    if (_id !== card.user_id && !isBusiness)
       throw new Error(
         "Authorization Error: Only business owner user can update the card"
       );
