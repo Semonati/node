@@ -28,7 +28,6 @@ router.post("/", async (req, res) => {
     const { error } = validateRegistration(user);
     if (error)
       return handleError(res, 400, `Joi Error: ${error.details[0].message}`);
-
     user = normalizeUser(user);
     user.password = generateUserPassword(user.password);
     user = await registerUser(user);
@@ -89,10 +88,8 @@ router.get("/:id", auth, async (req, res) => {
 router.put("/:id", auth, async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
     const { _id } = req.user;
     let user = req.body;
-    console.log(user);
     const { error } = validateUserUpdate(user);
     if (error)
       return handleError(res, 400, `Joi Error: ${error.details[0].message}`);

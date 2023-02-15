@@ -13,6 +13,7 @@ export const UserProvider = ({ children }) => {
       const userFromLocalStorage = getUser();
       setUser(userFromLocalStorage);
     }
+    
   }, [user]);
 
   const value = useMemo(() => {

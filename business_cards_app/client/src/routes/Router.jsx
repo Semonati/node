@@ -29,6 +29,7 @@ import CreateCardPage from "../cards/pages/CreateCardPage";
 import EditCardPage from "../cards/pages/EditCardPage";
 import EditUserPage from "../users/pages/EditUserPage";
 import FavCardsPage from "../cards/pages/FavCardPage";
+import ChangeBizNumber from "../cards/pages/ChangeBizNumber";
 
 const Router = () => {
   return (
@@ -38,13 +39,17 @@ const Router = () => {
       <Route path={ROUTES.CARDS} element={<CardsPage />} />
       <Route path={`${ROUTES.EDIT_CARD}/:cardId`} element={<EditCardPage />} />
       <Route
+        path={`${ROUTES.CHANGE_BIZ_NUMBER}/:cardId`}
+        element={<ChangeBizNumber />}
+      />
+      <Route
         path={`${ROUTES.CARD_DETAILS}/:cardId`}
         element={<CardDetailsPage />}
       />
       <Route path={ROUTES.MY_CARDS} element={<MyCardsPage />} />
       <Route path={ROUTES.CREATE_CARD} element={<CreateCardPage />} />
       <Route path={ROUTES.LOGIN} element={<LoginPage />} />
-      <Route path={ROUTES.FAV_CRDES} element={<FavCardsPage />} />
+      <Route path={`${ROUTES.FAV_CRDES}/:userId`} element={<FavCardsPage />} />
       <Route path={ROUTES.SIGNUP} element={<SignupPage />} />
       <Route path={`${ROUTES.EDIT_USER}/:userId`} element={<EditUserPage />} />
       <Route path={ROUTES.SANDBOX} element={<Sandbox />}>

@@ -6,7 +6,6 @@ import FormButton from "./FormButton";
 import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import LoopIcon from "@mui/icons-material/Loop";
-import { useSnackBar } from "../../providers/SnackBarProvifer";
 
 const Form = ({
   title,
@@ -20,9 +19,8 @@ const Form = ({
   children,
 }) => {
   const navigate = useNavigate();
-  const snackBar = useSnackBar()
 
-  // console.log(onSubmit)
+  console.log();
   return (
     <Box
       component="form"

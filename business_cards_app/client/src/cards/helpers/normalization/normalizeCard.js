@@ -6,6 +6,7 @@ const normalizeCard = card => {
     phone: card.phone,
     email: card.email,
     web: card.webUrl,
+    bizNumber: card.bizNumber,
     image: {
       url: card.imageUrl,
       alt: card.imageAlt,

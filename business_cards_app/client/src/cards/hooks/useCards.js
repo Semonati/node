@@ -1,9 +1,8 @@
 import { useState, useCallback, useMemo, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import useAxios from "../../hooks/useAxios";
 import { useSnackBar } from "../../providers/SnackBarProvifer";
 import ROUTES from "../../routes/routerModel";
-import { useUser } from "../../users/providers/UserProviders";
 import normalizeCard from "../helpers/normalization/normalizeCard";
 import {
   changeLikeStatus,
@@ -22,10 +21,11 @@ const useCards = () => {
   const [error, setError] = useState(null);
   const snack = useSnackBar();
   const navigate = useNavigate();
-  const { user } = useUser();
   const [query, setQuery] = useState("");
   const [filtered, setFiltered] = useState(null);
   const [searchParams] = useSearchParams();
+  const { userId } = useParams();
+  
 
   useEffect(() => {
     setQuery(searchParams.get("q") ?? "");
@@ -136,9 +136,9 @@ const useCards = () => {
       setIsPending(true);
       const cards = await getCards();
       const favCards = cards.filter(
-        (card) => !!card.likes.find((id) => id === user._id)
+        (card) => !!card.likes.find((id) => id === userId)
       );
-      requestStatus(false, null, favCards);
+      return requestStatus(false, null, favCards);
     } catch (error) {
       requestStatus(false, error, null);
     }

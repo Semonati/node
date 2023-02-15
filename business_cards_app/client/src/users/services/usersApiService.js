@@ -23,7 +23,7 @@ export const getUserFromDB = async (userId) => {
 export const login = async (user) => {
   try {
     const { data, status } = await axios.post(`${apiUrl}/users/login`, user);
-    getStatus(status)
+    getStatus(status);
     return data;
   } catch (error) {
     getStatus(error.response.status);

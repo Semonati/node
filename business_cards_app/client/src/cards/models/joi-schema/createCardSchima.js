@@ -31,6 +31,7 @@ const createCradSchema = {
   street: titleAndSub,
   houseNumber: Joi.number().required(),
   zip: Joi.number(),
+  bizNumber: Joi.number().allow(""),
 };
 
 export default createCradSchema;

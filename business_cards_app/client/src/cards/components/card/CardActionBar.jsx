@@ -53,7 +53,7 @@ const CardActionBar = ({ card, onDelete, onLike, cardLikes }) => {
             </IconButton>
           )}
 
-          {user && user._id === card.user_id && (
+          {user && (user._id === card.user_id || user.isAdmin) && (
             <IconButton
               aria-label="edit card"
               onClick={() => navigate(`${ROUTES.EDIT_CARD}/${card._id}`)}

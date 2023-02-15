@@ -27,7 +27,6 @@ const CardComponent = ({ card, onDelete, onLike }) => {
         onLike={onLike}
         card={card}
         cardLikes={card.likes}
-        // addDetalis={moreDetails}
       />
     </MuiCard>
   );

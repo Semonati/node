@@ -1,12 +1,11 @@
 const mapUserToModel = (user) => {
   return {
     first: user.name.first,
-    middleName: user.name.middle,
+    middle: user.name.middle,
     last: user.name.last,
     phone: user.phone,
     isBusiness: user.isBusiness,
     email: user.email,
-    password: user.password,
     imageUrl: user.image.url,
     imageAlt: user.image.alt,
     state: user.address.state,

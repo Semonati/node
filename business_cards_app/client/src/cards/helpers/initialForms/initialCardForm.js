@@ -12,6 +12,7 @@ const initialCardForm = {
   city: "",
   street: "",
   houseNumber: "",
+  bizNumber:0,
   zip: 0,
 };
 

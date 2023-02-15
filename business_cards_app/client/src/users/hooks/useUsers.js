@@ -98,12 +98,13 @@ const useUsers = () => {
 
   const handleEditUser = useCallback(async (userId, userFromClient) => {
     try {
+      console.log(userFromClient);
       setIsPending(true);
       const normelizedUser = normalizeUser(userFromClient);
       const user = await editUser(userId, normelizedUser);
-      requestStatus(false, null, null, user);
       snack("success", "The user was seccessfully updated");
       navigate(ROUTES.MY_CARDS);
+      return requestStatus(false, null, null, user);
     } catch (error) {
       requestStatus(false, error, null);
     }
