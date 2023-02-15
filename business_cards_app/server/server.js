@@ -26,6 +26,6 @@ app.use((err, req, res, next) => {
 
 const PORT = config.get("PORT");
 app.listen(PORT, () => {
-  console.log(chalk.blueBright(`Listening on: http://localhost:${PORT}`));
+  chalk.blueBright(`Listening on: http://localhost:${PORT}`);
   connectToDb();
 });

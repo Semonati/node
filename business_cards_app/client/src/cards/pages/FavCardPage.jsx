@@ -9,7 +9,7 @@ const FavCardsPage = () => {
   const { value, ...rest } = useCards();
   const { isPending, error, cards } = value;
   const { handleDeleteCard, handleGetFavCards } = rest;
-  // console.log(value);
+
   useEffect(() => {
     handleGetFavCards();
   }, []);

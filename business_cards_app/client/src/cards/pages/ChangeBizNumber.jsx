@@ -2,7 +2,7 @@ import React from "react";
 import Input from "../../forms/components/Input";
 
 const ChangeBizNumber = ({ errors, onInputChange, data }) => {
-    // console.log(data);
+
   return (
     <Input
       name="bizNumber"

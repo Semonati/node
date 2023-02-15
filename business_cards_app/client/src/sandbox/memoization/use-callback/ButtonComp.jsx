@@ -15,5 +15,4 @@ ButtonComp.propTypes = {
   children: node.isRequired,
 };
 
-// export default ButtonComp;
 export default React.memo(ButtonComp);

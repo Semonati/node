@@ -16,7 +16,6 @@ const CardForm = ({
   changeBizNumber,
 }) => {
   const { user } = useUser();
-  // console.log(data);
   return (
     <Form
       onSubmit={onSubmit}

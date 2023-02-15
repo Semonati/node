@@ -14,7 +14,6 @@ const CardBody = ({ card }) => {
   const { title, subtitle, phone, address, bizNumber, createdAt, email, web } =
     card;
   const { street, houseNumber, city, zip, state, country } = address;
-  console.log();
   return (
     <CardContent>
       <CardHeader title={title} subheader={subtitle} sx={{ p: 0, mb: 1 }} />

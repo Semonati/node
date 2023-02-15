@@ -1,5 +1,4 @@
 import axios from "axios";
-import getStatus from "../helpers/utils/blockPage";
 
 const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:8181";
 
@@ -22,11 +21,9 @@ export const getUserFromDB = async (userId) => {
 
 export const login = async (user) => {
   try {
-    const { data, status } = await axios.post(`${apiUrl}/users/login`, user);
-    getStatus(status);
+    const { data } = await axios.post(`${apiUrl}/users/login`, user);
     return data;
   } catch (error) {
-    getStatus(error.response.status);
     return Promise.reject(error.message);
   }
 };
@@ -46,7 +43,6 @@ export const editUser = async (userId, normelizedUser) => {
       `${apiUrl}/users/${userId}`,
       normelizedUser
     );
-    console.log(data);
     return data;
   } catch (error) {
     return Promise.reject(error.message);

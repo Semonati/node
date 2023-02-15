@@ -44,7 +44,6 @@ export const editCard = async (cardId, normelizedCard) => {
       `${apiUrl}/cards/${cardId}`,
       normelizedCard
     );
-    // console.log(data);
     return data;
   } catch (error) {
     return Promise.reject(error.message);

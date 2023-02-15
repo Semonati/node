@@ -35,6 +35,6 @@ const CardComponent = ({ card, onDelete, onLike }) => {
 CardComponent.propTypes = {
   card: cardType.isRequired,
   onDelete: func.isRequired,
-  // handleLikeCard: func.isRequired,
+  onLike: func.isRequired,
 };
 export default CardComponent;

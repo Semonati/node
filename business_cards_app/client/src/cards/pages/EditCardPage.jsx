@@ -33,7 +33,6 @@ const EditCardPage = () => {
 
   useEffect(() => {
     handleGetCard(cardId).then((data) => {
-      console.log(data);
       if (user._id !== data.user_id) {
         setBizNumber(true)
       }

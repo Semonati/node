@@ -15,7 +15,6 @@ const RightNavBar = () => {
   const { isDark, toggelDarkMode } = useTheme();
   const { user } = useUser();
   const { value, handleGetCards } = useCards();
-  // console.log(cards);
 
   useEffect(() => {
     handleGetCards();

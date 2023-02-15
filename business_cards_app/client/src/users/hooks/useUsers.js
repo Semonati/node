@@ -98,7 +98,6 @@ const useUsers = () => {
 
   const handleEditUser = useCallback(async (userId, userFromClient) => {
     try {
-      console.log(userFromClient);
       setIsPending(true);
       const normelizedUser = normalizeUser(userFromClient);
       const user = await editUser(userId, normelizedUser);
