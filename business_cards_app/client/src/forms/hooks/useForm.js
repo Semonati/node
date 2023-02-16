@@ -51,7 +51,7 @@ const useForm = (initialForm, schema, handleSubmit) => {
 
   const onSubmit = useCallback(() => {
     handleSubmit(data);
-    navigate(ROUTES.CARDS)
+    navigate(ROUTES.CARDS);
   }, [handleSubmit, data]);
 
   const value = useMemo(() => {

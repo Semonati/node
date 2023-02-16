@@ -11,19 +11,21 @@ import useForm from "../../forms/hooks/useForm";
 import initialSignupForm from "../helpers/initialForms/initialSignupForm";
 import signupSchema from "../models/joi-schema.js/signupSchema";
 import UserForm from "../components/UserForm";
+import normalizeUser from "../helpers/normalization/normalizeUser";
 
 const EditUserPage = () => {
   const { userId } = useParams();
-  const { handleEditUser, handleGetUser } = useUsers();
-  const { value, ...rest } = useForm(
-    initialSignupForm,
-    signupSchema,
-    handleEditUser
-  );
-
+  const { handleEditUser, handleGetUser, userValue } = useUsers();
+  const { value, ...rest } = useForm(initialSignupForm, signupSchema, () => {
+    handleEditUser(userValue.user._id, {
+      ...normalizeUser({ ...value.data }),
+      user_id: user._id,
+    });
+  });
+  
   const { user } = useUser();
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     handleGetUser(userId).then((data) => {
       if (user._id !== data._id) return navigate(ROUTES.CARDS);

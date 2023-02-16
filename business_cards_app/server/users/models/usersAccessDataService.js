@@ -65,7 +65,7 @@ const getUser = async (userId) => {
     try {
       const user = await User.findById(
         { _id: userId },
-        { __v: 0, isAdmin: 0 }
+        { __v: 0, password: 0, isAdmin: 0 }
       );
       if (!user) throw new Error("Could not find this user in the database");
       return Promise.resolve(user);
