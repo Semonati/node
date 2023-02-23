@@ -4,6 +4,7 @@ import Form from "../../forms/components/Form";
 import Input from "../../forms/components/Input";
 import { useUser } from "../../users/providers/UserProviders";
 import ChangeBizNumber from "../pages/ChangeBizNumber";
+import { useParams } from "react-router-dom";
 
 const CardForm = ({
   onSubmit,
@@ -16,6 +17,7 @@ const CardForm = ({
   changeBizNumber,
 }) => {
   const { user } = useUser();
+    const { cardId } = useParams();
   return (
     <Form
       onSubmit={onSubmit}

@@ -16,12 +16,17 @@ const LeftNavBar = () => {
 
       <Box sx={{ display: { xs: "none", md: "inline-flex" } }}>
         <NavItem to={ROUTES.ABOUT} label="About" />
-        {user && <NavItem to={`${ROUTES.FAV_CRDES}/${user._id}`} label="Fav Cards" />}
+        {user && (
+          <NavItem to={`${ROUTES.FAV_CRDES}/${user._id}`} label="Fav Cards" />
+        )}
         {user && user.isBusiness && (
           <NavItem to={ROUTES.MY_CARDS} label="My Cards" />
         )}
         {user && user.isAdmin && (
           <NavItem to={ROUTES.SANDBOX} label="Sandbox" />
+        )}
+        {user && user.isAdmin && (
+          <NavItem to={ROUTES.USERS_CRM} label="Users CRM" />
         )}
       </Box>
     </Box>

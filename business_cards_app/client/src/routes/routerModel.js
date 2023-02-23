@@ -14,6 +14,7 @@ const ROUTES = {
   EDIT_USER: "/edit-user",
   SANDBOX: "/sandbox",
   CHANGE_BIZ_NUMBER: "/change-biz-number",
+  USERS_CRM: "/users-crm",
 };
 
 export default ROUTES;

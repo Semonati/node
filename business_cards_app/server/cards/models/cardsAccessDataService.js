@@ -7,6 +7,7 @@ const getCards = async () => {
   if (DB === "MONGODB") {
     try {
       const cards = await Card.find({}, { __v: 0, password: 0 });
+      
       return Promise.resolve(cards);
     } catch (error) {
       error.status = 404;

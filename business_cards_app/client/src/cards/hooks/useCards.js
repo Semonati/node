@@ -103,7 +103,7 @@ const useCards = () => {
       const card = await editCard(cardId, cardFromClient);
       requestStatus(false, null, null, card);
       snack("success", "The card was seccessfully updated");
-      navigate(ROUTES.MY_CARDS);
+      navigate(ROUTES.CARDS);
     } catch (error) {
       requestStatus(false, error, null);
     }

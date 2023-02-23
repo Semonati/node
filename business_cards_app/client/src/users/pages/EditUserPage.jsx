@@ -22,7 +22,7 @@ const EditUserPage = () => {
       user_id: user._id,
     });
   });
-  
+
   const { user } = useUser();
   const navigate = useNavigate();
 

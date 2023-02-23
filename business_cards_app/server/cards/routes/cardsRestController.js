@@ -28,7 +28,7 @@ router.get("/", async (req, res) => {
 
 router.get("/my-cards", auth, async (req, res) => {
   try {
-    const { isAdmin,isBusiness, _id } = req.user;
+    const { isAdmin, isBusiness, _id } = req.user;
     if (!isBusiness && !isAdmin)
       throw new Error(
         "Authorization Error: Only business or admin can find this card"

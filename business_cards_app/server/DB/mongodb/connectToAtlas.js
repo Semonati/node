@@ -10,7 +10,7 @@ const { hours, minutes, seconds } = currentTime();
 
 mongoose
   .connect(
-    `mongodb+srv://${name}:${password}@businesscardapp.slp4shd.mongodb.net/?retryWrites=true&w=majority`
+    `mongodb+srv://${name}:${password}@businesscard.rdka5di.mongodb.net/business-Card`
   )
   .then(() =>
     console.log(
@@ -26,4 +26,3 @@ mongoose
       )
     )
   );
-

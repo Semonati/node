@@ -6,6 +6,7 @@ const initialSignupForm = {
   email: "",
   url: "",
   alt: "",
+  password: "",
   state: "",
   country: "",
   city: "",

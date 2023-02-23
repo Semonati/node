@@ -29,6 +29,8 @@ import CreateCardPage from "../cards/pages/CreateCardPage";
 import EditCardPage from "../cards/pages/EditCardPage";
 import EditUserPage from "../users/pages/EditUserPage";
 import FavCardsPage from "../cards/pages/FavCardPage";
+import UsersCRMPage from "../users/pages/UsersCRMPage";
+import UserPage from "../users/pages/UserPage";
 
 const Router = () => {
   return (
@@ -36,6 +38,7 @@ const Router = () => {
       <Route path={ROUTES.ROOT} element={<CardsPage />} />
       <Route path={ROUTES.ABOUT} element={<AboutPage />} />
       <Route path={ROUTES.CARDS} element={<CardsPage />} />
+      <Route path={ROUTES.USERS_CRM} element={<UsersCRMPage />} />
       <Route path={`${ROUTES.EDIT_CARD}/:cardId`} element={<EditCardPage />} />
       <Route
         path={`${ROUTES.CARD_DETAILS}/:cardId`}
@@ -47,6 +50,7 @@ const Router = () => {
       <Route path={`${ROUTES.FAV_CRDES}/:userId`} element={<FavCardsPage />} />
       <Route path={ROUTES.SIGNUP} element={<SignupPage />} />
       <Route path={`${ROUTES.EDIT_USER}/:userId`} element={<EditUserPage />} />
+      <Route path={`${ROUTES.USER_PROFILE}/:userId`} element={<UserPage />} />
       <Route path={ROUTES.SANDBOX} element={<Sandbox />}>
         <Route path="logic" element={<CompLogic />} />
         <Route path="custom-counter-hook" element={<CustomCounterHook />} />

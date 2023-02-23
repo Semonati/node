@@ -32,7 +32,7 @@ const SignupPage = () => {
       }}
     >
       <UserForm
-        title="edit user form"
+        title="Signup form"
         onSubmit={rest.onSubmit}
         onReset={rest.handleReset}
         onFormChange={rest.validateForm}

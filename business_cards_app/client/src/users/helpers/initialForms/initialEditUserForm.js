@@ -4,7 +4,6 @@ const initialEditUserForm = {
   last: "",
   phone: "",
   email: "",
-  password: "",
   url: "",
   alt: "",
   state: "",

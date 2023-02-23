@@ -6,7 +6,7 @@ import Grid from "@mui/material/Grid";
 import Form from "../../forms/components/Form";
 import Input from "../../forms/components/Input";
 import ROUTES from "../../routes/routerModel";
-
+import { useUser } from "../providers/UserProviders";
 const UserForm = ({
   onSubmit,
   onReset,
@@ -17,6 +17,8 @@ const UserForm = ({
   onInputChange,
   setData,
 }) => {
+  const { user } = useUser();
+
   return (
     <Form
       onSubmit={onSubmit}
@@ -59,6 +61,7 @@ const UserForm = ({
         onChange={onInputChange}
         data={data}
         sm={6}
+        changeBizNumber={user ? true : false}
       />
       <Input
         name="email"
@@ -68,6 +71,7 @@ const UserForm = ({
         onChange={onInputChange}
         data={data}
         sm={6}
+        changeBizNumber={user ? true : false}
       />
       <Input
         name="password"
@@ -154,7 +158,7 @@ const UserForm = ({
           }}
           name="isBusiness"
           control={<Checkbox value={data.isBusiness} color="primary" />}
-          label="Signup as business"
+          label={user ? "Change business status" : "Signup as business"}
           checked={data.isBusiness}
         />
       </Grid>

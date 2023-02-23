@@ -13,7 +13,6 @@ const {
   changeUserBusinessStatus,
   deleteUser,
 } = require("../models/usersAccessDataService");
-const userUpdateValidation = require("../validations/Joi/userUpdateValidation");
 const {
   validateRegistration,
   validateLogin,
@@ -100,6 +99,7 @@ router.put("/:id", auth, async (req, res) => {
         "Authorization Error: You must be user owner to update the data"
       );
     user = normalizeUser(user);
+    user.password = generateUserPassword(user.password);
     user = await updateUser(id, user);
     return res.send(user);
   } catch (error) {

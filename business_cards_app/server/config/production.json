@@ -2,10 +2,8 @@
     "NODE_ENV": "production",
     "PORT": "9191",
     "TOKEN_GENERATOR": "jwt",
-    "DB_NAME": "businessCardApp",
-    "DB_PASSWORD": "businessCardApp",
+    "DB_NAME": "businessCard",
+    "DB_PASSWORD": "businessCard",
     "LOGGER": "morgan",
-    "DB": "MONGODB",
-    "GOOGLE_CLIENT_ID": "841399506731-2q644piepbqb7sain2vq8jfqak065ba7.apps.googleusercontent.com",
-    "GOOGLE_CLIENT_SECRET": "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"
+    "DB": "MONGODB"
 }

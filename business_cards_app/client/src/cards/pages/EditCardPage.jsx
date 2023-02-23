@@ -19,7 +19,7 @@ const EditCardPage = () => {
   const { value, ...rest } = useForm(initialCardForm, createCradSchema, () => {
     handleUpdateCard(card._id, {
       ...normalizeCard({ ...value.data }),
-      user_id: user._id,
+      user_id: card.user_id,
     });
   });
 
@@ -30,6 +30,8 @@ const EditCardPage = () => {
   } = useCards();
 
   const { user } = useUser();
+  
+
 
   useEffect(() => {
     handleGetCard(cardId).then((data) => {

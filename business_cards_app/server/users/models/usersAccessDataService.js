@@ -28,6 +28,7 @@ const registerUser = async (normalizedUser) => {
 const loginUser = async ({ email, password }) => {
   if (DB === "MONGODB") {
     try {
+      
       let user = await User.findOne({ email });
       if (!user) {
         throw new Error("Authentication Error: Invalid email or password");

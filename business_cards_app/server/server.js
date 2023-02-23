@@ -8,10 +8,6 @@ const logger = require("./logger/loggerService");
 const connectToDb = require("./DB/dbService");
 const app = express();
 const { handleError } = require("./utils/handleErrors");
-const {
-  generateInitialCards,
-  generateInitialUsers,
-} = require("./initialData/initialDataService");
 
 app.use(cors);
 app.use(logger);

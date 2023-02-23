@@ -12,6 +12,7 @@ import {
   setTokenInLocalStorage,
 } from "../services/localStorageService";
 import {
+  businessUser,
   deleteUser,
   editUser,
   getUserFromDB,
@@ -57,6 +58,7 @@ const useUsers = () => {
   const handleLogout = useCallback(() => {
     removeToker();
     setUser(null);
+    navigate(ROUTES.CARDS);
   }, [setUser]);
 
   const handleSignup = useCallback(
@@ -79,7 +81,7 @@ const useUsers = () => {
     try {
       setIsPending(true);
       const users = await getUsers();
-      requestStatus(false, null, users);
+      requestStatus(false, null, users, user);
     } catch (error) {
       requestStatus(false, error, null);
     }
@@ -99,10 +101,9 @@ const useUsers = () => {
   const handleEditUser = useCallback(async (userId, userFromClient) => {
     try {
       setIsPending(true);
-      const normelizedUser = normalizeUser(userFromClient);
-      const user = await editUser(userId, normelizedUser);
+      const user = await editUser(userId, userFromClient);
       snack("success", "The user was seccessfully updated");
-      navigate(ROUTES.MY_CARDS);
+      navigate(ROUTES.CARDS);
       return requestStatus(false, null, null, user);
     } catch (error) {
       requestStatus(false, error, null);
@@ -120,6 +121,19 @@ const useUsers = () => {
     }
   }, []);
 
+  const handleBusinessUser = useCallback(
+    async (user_id) => {
+      try {
+        await businessUser(user_id);
+        snack("success", "The user has been successfully changed");
+        requestStatus(false, null, users, user);
+      } catch (error) {
+        requestStatus(false, error, null);
+      }
+    },
+    [requestStatus, users]
+  );
+
   const userValue = useMemo(() => {
     return { isPending, error, user, users };
   }, [isPending, error, user, users]);
@@ -133,6 +147,7 @@ const useUsers = () => {
     handleGetUser,
     handleEditUser,
     handleDeleteUser,
+    handleBusinessUser,
   };
 };
 
